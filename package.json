@@ -1,0 +1,17 @@
+{
+  "name": "veriti-voice-overflow",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/ops",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev:ops": "npm run dev --workspace @veriti/ops",
+    "build:ops": "npm run build --workspace @veriti/ops",
+    "lint:ops": "npm run lint --workspace @veriti/ops",
+    "debug:media": "node scripts/debug-media-session.mjs",
+    "probe:call-lab": "node scripts/probe-call-lab.mjs",
+    "probe:gemini": "PYTHONPATH=apps/api apps/api/.venv/bin/python scripts/probe-gemini-live.py"
+  }
+}

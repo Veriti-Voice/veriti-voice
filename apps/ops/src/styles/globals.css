@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  /* === Brand Palette: Warm Industrial Premium === */
+  --color-ironwood: #202624;
+  --color-deep-eucalypt: #3F615B;
+  --color-copper-clay: #C56E4C;
+  --color-soft-sand: #E8DCCF;
+  --color-bone: #F7F3ED;
+  --color-sage-mist: #AEBCAF;
+  --color-slate-fog: #C8CFCA;
+
+  /* === Semantic Aliases for shadcn/ui === */
+  --color-background: #F7F3ED;
+  --color-foreground: #202624;
+
+  --color-card: #FFFFFF;
+  --color-card-foreground: #202624;
+
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: #202624;
+
+  --color-primary: #202624;
+  --color-primary-foreground: #F7F3ED;
+
+  --color-secondary: #3F615B;
+  --color-secondary-foreground: #F7F3ED;
+
+  --color-accent: #C56E4C;
+  --color-accent-foreground: #FFFFFF;
+
+  --color-muted: #E8DCCF;
+  --color-muted-foreground: #5A5550;
+
+  --color-destructive: #B91C1C;
+  --color-destructive-foreground: #FFFFFF;
+
+  --color-border: #C8CFCA;
+  --color-input: #C8CFCA;
+  --color-ring: #3F615B;
+
+  /* === Radii === */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* === Fonts === */
+  --font-sans: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* === Base layer === */
+@layer base {
+  body {
+    @apply bg-bone text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply text-ironwood font-semibold tracking-tight;
+  }
+}

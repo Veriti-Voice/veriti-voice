@@ -1,0 +1,12 @@
+.DS_Store
+.env
+.venv/
+node_modules/
+dist/
+build/
+coverage/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.log

@@ -1,0 +1,1421 @@
+/* ====================================================
+   Veriti Voice — Base Styles (Warm Industrial Premium)
+   Palette:
+     Ironwood      #202624
+     Deep Eucalypt #3F615B
+     Copper Clay   #C56E4C
+     Soft Sand     #E8DCCF
+     Bone          #F7F3ED
+     Sage Mist     #AEBCAF
+     Slate Fog     #C8CFCA
+   ==================================================== */
+
+:root {
+  color-scheme: light;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  background: #F7F3ED;
+  color: #202624;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #F7F3ED;
+}
+
+/* === Legacy app-shell (used by LabPage wrapper) === */
+.call-lab-legacy-wrapper .experience-layout {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
+  align-items: start;
+}
+
+.experience-main,
+.experience-side,
+.ops-studio {
+  min-width: 0;
+}
+
+/* ====================================================
+   CALL LAB
+   ==================================================== */
+
+.call-lab {
+  margin-bottom: 24px;
+}
+
+.call-lab-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.call-lab-status-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Mode chips */
+.mode-chip {
+  border: 1px solid rgba(32, 38, 36, 0.14);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.7);
+  color: #3F615B;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mode-chip-active {
+  background: #202624;
+  color: #F7F3ED;
+  border-color: #202624;
+}
+
+.mode-chip-static {
+  cursor: default;
+}
+
+.mode-chip-live {
+  background: rgba(174, 188, 175, 0.35);
+  color: #2e4e41;
+  border-color: rgba(63, 97, 91, 0.2);
+}
+
+.mode-chip-stub {
+  background: rgba(197, 110, 76, 0.12);
+  color: #9b4a28;
+  border-color: rgba(197, 110, 76, 0.2);
+}
+
+.mode-chip-waiting {
+  background: rgba(255, 255, 255, 0.8);
+  color: #5a5550;
+  border-color: rgba(32, 38, 36, 0.1);
+}
+
+/* Hints bar */
+.call-lab-howto {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(174, 188, 175, 0.18);
+  border: 1px solid rgba(63, 97, 91, 0.14);
+  color: #3F615B;
+}
+
+.call-lab-hints strong,
+.call-lab-hints span {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}
+
+/* Call lab grid */
+.call-lab-grid {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(340px, 420px) minmax(0, 1fr);
+  margin-top: 24px;
+  align-items: start;
+}
+
+.call-stage-body {
+  margin-top: 22px;
+  display: grid;
+  gap: 18px;
+}
+
+/* Call stage container */
+.call-stage {
+  width: 100%;
+  max-width: 420px;
+  justify-self: center;
+  padding: 22px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #F7F3ED 100%);
+  border: 1px solid rgba(200, 207, 202, 0.7);
+  box-shadow: 0 1px 3px rgba(32, 38, 36, 0.06), 0 8px 24px rgba(32, 38, 36, 0.06);
+}
+
+.call-stage-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.call-stage-topline p {
+  margin: 6px 0 0;
+  color: #5a5550;
+}
+
+.call-topline-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.call-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(174, 188, 175, 0.2);
+  border: 1px solid rgba(63, 97, 91, 0.14);
+  color: #3F615B;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* ====================================================
+   PHONE SIMULATOR
+   ==================================================== */
+
+.phone-shell {
+  display: flex;
+  justify-content: center;
+}
+
+.phone-frame {
+  width: min(100%, 320px);
+  aspect-ratio: 320 / 710;
+  padding: 14px;
+  border-radius: 42px;
+  background:
+    linear-gradient(160deg, rgba(38, 44, 42, 1) 0%, rgba(20, 24, 22, 1) 46%, rgba(36, 43, 40, 1) 100%);
+  box-shadow:
+    0 24px 70px rgba(16, 14, 12, 0.28),
+    inset 0 2px 6px rgba(255, 255, 255, 0.14),
+    inset 0 -2px 10px rgba(0, 0, 0, 0.45);
+  position: relative;
+}
+
+.phone-frame::before,
+.phone-frame::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  width: 4px;
+  border-radius: 999px;
+  background: rgba(38, 44, 42, 0.95);
+}
+
+.phone-frame::before {
+  top: 150px;
+  height: 72px;
+}
+
+.phone-frame::after {
+  top: 245px;
+  height: 118px;
+}
+
+.phone-screen {
+  height: 100%;
+  border-radius: 30px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top, rgba(197, 110, 76, 0.15), transparent 26%),
+    radial-gradient(circle at bottom, rgba(63, 97, 91, 0.2), transparent 30%),
+    linear-gradient(180deg, #1a1f1e 0%, #111714 50%, #0c0f0e 100%);
+  color: #F7F3ED;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.phone-notch {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 38%;
+  height: 30px;
+  border-radius: 0 0 18px 18px;
+  background: rgba(5, 7, 6, 0.96);
+  z-index: 2;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+.phone-statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.phone-status-icons {
+  display: flex;
+  gap: 10px;
+  color: rgba(247, 243, 237, 0.6);
+}
+
+.phone-call-body {
+  height: 100%;
+  padding: 58px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.phone-call-main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.phone-call-footer {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.phone-line-pill {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.phone-line-pill strong {
+  color: rgba(247, 243, 237, 0.85);
+}
+
+.phone-avatar-wrap {
+  position: relative;
+  margin-top: 16px;
+}
+
+.phone-avatar-glow {
+  position: absolute;
+  inset: -24px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(63, 97, 91, 0.3), transparent 68%);
+}
+
+/* Deep Eucalypt avatar */
+.phone-avatar {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #F7F3ED;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(100, 150, 140, 0.96), rgba(45, 85, 78, 0.9)),
+    #3F615B;
+  box-shadow:
+    0 18px 36px rgba(32, 38, 36, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.phone-caller-label {
+  margin: 12px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  color: rgba(247, 243, 237, 0.5);
+}
+
+.phone-caller-name {
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-size: clamp(1.28rem, 2.5vw, 1.7rem);
+  font-weight: 600;
+  margin: 0;
+  max-width: 8ch;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+  color: #F7F3ED;
+}
+
+.phone-caller-number {
+  margin: 6px 0 0;
+  color: rgba(247, 243, 237, 0.6);
+  font-size: 0.82rem;
+}
+
+.phone-call-summary {
+  max-width: 25ch;
+  margin: 10px auto 0;
+  color: rgba(247, 243, 237, 0.75);
+  line-height: 1.5;
+  min-height: 0;
+  font-size: 0.9rem;
+}
+
+/* Copper Clay waveform */
+.phone-waveform {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+}
+
+.phone-wave-bar {
+  width: 4px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(210, 140, 110, 0.9), rgba(197, 110, 76, 0.65));
+  opacity: 0.9;
+  transition: height 0.08s ease;
+}
+
+/* Phone action buttons */
+.phone-actions-dock {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  padding-top: 8px;
+}
+
+.phone-action {
+  width: 62px;
+  height: 62px;
+  border: 0;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.phone-action:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* Start button — muted slate */
+.phone-action-muted {
+  background: linear-gradient(180deg, #5a6460 0%, #454e4b 100%);
+}
+
+/* Mic button — Copper Clay */
+.phone-action-warm {
+  background: linear-gradient(180deg, #d4805e 0%, #b85c3a 100%);
+}
+
+/* Active mic — pulse glow in Copper Clay */
+.phone-action-live {
+  box-shadow:
+    0 0 0 10px rgba(197, 110, 76, 0.14),
+    0 0 26px rgba(197, 110, 76, 0.38),
+    0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* End call — destructive red */
+.phone-action-danger {
+  background: linear-gradient(180deg, #e05a54 0%, #c23530 100%);
+}
+
+.phone-action:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+/* ====================================================
+   CALLER TOOLS
+   ==================================================== */
+
+.call-lab-console {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.call-lab-console-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.call-tools-panel {
+  margin-top: 20px;
+}
+
+.call-lab-toggle-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.call-lab-toggle-label {
+  color: #5a5550;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.phone-pill {
+  display: inline-flex;
+  margin-bottom: 10px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(197, 110, 76, 0.1);
+  color: #9b4a28;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Scenario cards — new palette */
+.scenario-strip {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scenario-card {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(200, 207, 202, 0.7);
+  background: #ffffff;
+  color: #202624;
+  text-align: left;
+  cursor: pointer;
+  min-height: 80px;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+
+.scenario-card:hover:not(:disabled) {
+  border-color: rgba(197, 110, 76, 0.4);
+  box-shadow: 0 4px 16px rgba(32, 38, 36, 0.08);
+  transform: translateY(-1px);
+}
+
+.scenario-card:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.scenario-card strong,
+.scenario-card span {
+  display: block;
+}
+
+.scenario-card strong {
+  font-weight: 700;
+  color: #202624;
+}
+
+.scenario-card span {
+  margin-top: 5px;
+  color: #3F615B;
+  font-size: 0.83rem;
+  line-height: 1.4;
+}
+
+/* Composer */
+.call-composer {
+  margin-top: 8px;
+  display: grid;
+  gap: 12px;
+}
+
+.call-composer label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #3a3530;
+}
+
+.call-composer textarea {
+  min-height: 88px;
+  resize: vertical;
+  border-radius: 12px;
+  border: 1px solid rgba(200, 207, 202, 0.7);
+  background: #ffffff;
+  padding: 14px 16px;
+  font: inherit;
+  color: #202624;
+  transition: border-color 0.15s;
+}
+
+.call-composer textarea:focus {
+  outline: none;
+  border-color: #3F615B;
+  box-shadow: 0 0 0 3px rgba(63, 97, 91, 0.1);
+}
+
+.call-composer textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ====================================================
+   REVIEW PANEL
+   ==================================================== */
+
+.call-sidebar {
+  display: block;
+  min-width: 0;
+}
+
+.review-panel {
+  position: sticky;
+  top: 24px;
+  min-width: 0;
+}
+
+.review-panel-head {
+  align-items: flex-start;
+}
+
+.review-panel-subhead {
+  margin-bottom: 10px;
+}
+
+.review-panel-body {
+  display: grid;
+  gap: 14px;
+}
+
+.review-tab-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.review-scroll {
+  max-height: 520px;
+}
+
+.transcript-stack,
+.timeline-stack {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+  max-height: 420px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+/* Transcript bubbles — eucalypt/copper-clay tints */
+.transcript-bubble {
+  padding: 12px 14px;
+  border-radius: 14px;
+  display: grid;
+  gap: 5px;
+  border-left: 3px solid transparent;
+}
+
+.transcript-bubble span {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.transcript-bubble small {
+  font-size: 0.75rem;
+  color: #7a7570;
+}
+
+.transcript-bubble strong {
+  color: #202624;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* Assistant — Deep Eucalypt tint */
+.transcript-assistant {
+  background: rgba(63, 97, 91, 0.08);
+  border-left-color: #3F615B;
+}
+
+.transcript-assistant span {
+  color: #3F615B;
+}
+
+/* Caller — Soft Sand / Copper Clay tint */
+.transcript-caller {
+  background: rgba(232, 220, 207, 0.5);
+  border-left-color: #C56E4C;
+}
+
+.transcript-caller span {
+  color: #9b4a28;
+}
+
+/* System — neutral */
+.transcript-system {
+  background: rgba(200, 207, 202, 0.25);
+  border-left-color: #AEBCAF;
+}
+
+.transcript-system span {
+  color: #5a6460;
+}
+
+/* Timeline rows */
+.timeline-row {
+  padding: 12px 14px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.timeline-row strong {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #202624;
+}
+
+.timeline-row span {
+  color: #7a7570;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.timeline-neutral {
+  background: rgba(247, 243, 237, 0.9);
+  border: 1px solid rgba(200, 207, 202, 0.5);
+}
+
+.timeline-warm {
+  background: rgba(232, 220, 207, 0.6);
+  border: 1px solid rgba(197, 110, 76, 0.15);
+}
+
+.timeline-alert {
+  background: rgba(197, 110, 76, 0.1);
+  border: 1px solid rgba(197, 110, 76, 0.2);
+}
+
+/* Outcome facts */
+.outcome-summary-card {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(200, 207, 202, 0.6);
+  line-height: 1.55;
+  color: #202624;
+}
+
+.outcome-facts-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* ====================================================
+   SHARED COMPONENTS
+   ==================================================== */
+
+/* Kicker / eyebrow */
+.eyebrow,
+.card-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  color: #3F615B;
+  font-weight: 700;
+}
+
+/* Headings (legacy, for components not yet on Tailwind) */
+h1, h2 {
+  margin: 0 0 12px;
+  color: #202624;
+}
+
+h3 {
+  margin: 0;
+  color: #202624;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  line-height: 1;
+}
+
+.lede {
+  max-width: 56ch;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #3a3530;
+}
+
+/* Cards */
+.card {
+  background: #ffffff;
+  border: 1px solid rgba(200, 207, 202, 0.7);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(32, 38, 36, 0.06), 0 8px 24px rgba(32, 38, 36, 0.05);
+}
+
+.card-wide {
+  min-height: 100%;
+}
+
+.card-copy {
+  color: #5a5550;
+  line-height: 1.55;
+}
+
+/* Subcard — slightly tinted background */
+.subcard {
+  border-radius: 14px;
+  background: #F7F3ED;
+  border: 1px solid rgba(200, 207, 202, 0.7);
+  padding: 18px;
+}
+
+/* Primary button — Copper Clay */
+.primary-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 20px;
+  background: #C56E4C;
+  color: white;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.primary-button:hover:not(:disabled) {
+  background: #b55e3c;
+}
+
+.primary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Secondary button */
+.secondary-button {
+  border: 1px solid rgba(200, 207, 202, 0.8);
+  border-radius: 999px;
+  padding: 10px 16px;
+  background: rgba(247, 243, 237, 0.9);
+  color: #202624;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: #ffffff;
+}
+
+/* Priority badges */
+.priority {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.priority-high {
+  background: rgba(185, 28, 28, 0.1);
+  color: #991b1b;
+}
+
+.priority-medium {
+  background: rgba(197, 110, 76, 0.14);
+  color: #9b4a28;
+}
+
+.priority-low {
+  background: rgba(174, 188, 175, 0.35);
+  color: #2e4e41;
+}
+
+/* Meta pills */
+.meta-pill {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(232, 220, 207, 0.4);
+  border: 1px solid rgba(197, 110, 76, 0.12);
+}
+
+.meta-pill span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #7a7570;
+  margin-bottom: 4px;
+}
+
+.meta-pill strong {
+  color: #202624;
+  font-size: 0.92rem;
+}
+
+/* Record stacks */
+.record-stack {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.session-summary {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(200, 207, 202, 0.6);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #202624;
+}
+
+.session-summary p {
+  margin: 6px 0 0;
+  color: #5a5550;
+}
+
+.compact-records pre {
+  font-size: 0.78rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.empty-copy {
+  color: #7a7570;
+  font-size: 0.9rem;
+  margin: 10px 0 0;
+}
+
+.error-banner {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(185, 28, 28, 0.08);
+  color: #991b1b;
+  border: 1px solid rgba(185, 28, 28, 0.15);
+  font-size: 0.9rem;
+}
+
+/* Preview header */
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Queue components (for CallsPriorityCard) */
+.queue-card {
+  position: sticky;
+  top: 24px;
+}
+
+.queue-summary-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 18px 0 20px;
+}
+
+.queue-summary-pill {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(174, 188, 175, 0.2);
+  border: 1px solid rgba(63, 97, 91, 0.12);
+}
+
+.queue-summary-pill span {
+  display: block;
+  color: #5a6460;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.queue-summary-pill strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.5rem;
+  color: #202624;
+}
+
+.queue-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.queue-footer {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  padding-top: 4px;
+}
+
+.queue-item {
+  padding: 16px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid rgba(200, 207, 202, 0.7);
+}
+
+.queue-item-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.queue-item-header p {
+  margin: 6px 0 0;
+  color: #5a5550;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.queue-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.queue-meta-row span {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(247, 243, 237, 0.9);
+  border: 1px solid rgba(200, 207, 202, 0.6);
+  color: #5a5550;
+  font-size: 0.82rem;
+}
+
+.workflow-chip {
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.workflow-new {
+  background: rgba(197, 110, 76, 0.12) !important;
+  color: #9b4a28 !important;
+  border-color: rgba(197, 110, 76, 0.2) !important;
+}
+
+.workflow-reviewed {
+  background: rgba(63, 97, 91, 0.1) !important;
+  color: #2e4e41 !important;
+  border-color: rgba(63, 97, 91, 0.18) !important;
+}
+
+.workflow-done {
+  background: rgba(174, 188, 175, 0.3) !important;
+  color: #2e4e41 !important;
+  border-color: rgba(174, 188, 175, 0.5) !important;
+}
+
+/* Form elements (DemoWorkbench legacy) */
+.setup-form {
+  display: grid;
+  gap: 14px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.setup-form label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #3a3530;
+}
+
+.setup-form input,
+.setup-form select {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(200, 207, 202, 0.7);
+  background: white;
+  padding: 11px 14px;
+  font: inherit;
+  color: #202624;
+  transition: border-color 0.15s;
+}
+
+.setup-form input:focus,
+.setup-form select:focus {
+  outline: none;
+  border-color: #3F615B;
+  box-shadow: 0 0 0 3px rgba(63, 97, 91, 0.1);
+}
+
+.toggle-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.toggle-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(200, 207, 202, 0.7);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 12px 14px;
+}
+
+.toggle-field input {
+  width: auto;
+  accent-color: #3F615B;
+}
+
+.preview-panel {
+  margin-top: 20px;
+  border-radius: 14px;
+  background: #202624;
+  color: #F7F3ED;
+  padding: 18px;
+}
+
+.preview-panel pre {
+  margin: 12px 0 0;
+  overflow: auto;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #AEBCAF;
+}
+
+.records-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.scenario-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  margin-top: 16px;
+}
+
+.ops-studio-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.8fr);
+  align-items: start;
+}
+
+.ops-studio-main,
+.ops-studio-side {
+  display: grid;
+  gap: 18px;
+}
+
+.ops-overview-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 22px 0;
+}
+
+.ops-status-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-bottom: 18px;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 18px 0 22px;
+}
+
+.step-pill {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(232, 220, 207, 0.5);
+  border: 1px solid rgba(197, 110, 76, 0.14);
+}
+
+.step-pill strong,
+.step-pill span {
+  display: block;
+}
+
+.step-pill span {
+  margin-top: 4px;
+  color: #5a5550;
+  font-size: 0.88rem;
+}
+
+.secondary-actions {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.call-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(200, 207, 202, 0.6);
+}
+
+.call-row p {
+  margin: 4px 0 0;
+  color: #5a5550;
+}
+
+/* ====================================================
+   RESPONSIVE
+   ==================================================== */
+
+@media (max-width: 980px) {
+  .call-lab-legacy-wrapper .experience-layout,
+  .ops-studio-grid,
+  .call-lab-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .queue-card {
+    position: static;
+  }
+
+  .call-lab-header {
+    gap: 12px;
+  }
+
+  .call-stage-topline {
+    flex-direction: column;
+  }
+
+  .call-topline-stats {
+    justify-content: flex-start;
+  }
+
+  .phone-frame {
+    width: min(100%, 340px);
+  }
+
+  .call-stage {
+    max-width: none;
+  }
+
+  .review-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Single column layout — phone stacks above review */
+  .call-lab-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .call-lab {
+    padding: 20px 16px;
+  }
+
+  .call-lab-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .call-lab-status-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .call-lab-howto {
+    display: none; /* hide hints on small screens to save space */
+  }
+
+  /* Phone centered on mobile */
+  .call-stage-body {
+    display: flex;
+    justify-content: center;
+  }
+
+  .phone-frame {
+    width: min(100%, 300px);
+  }
+
+  /* Phone action buttons — ensure 44px touch targets */
+  .phone-action {
+    width: 56px;
+    height: 56px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Review panel — full width card below phone */
+  .review-panel {
+    position: static;
+    max-height: 480px;
+  }
+
+  .review-panel-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .review-tab-row {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 6px;
+  }
+
+  .review-panel-body {
+    max-height: 360px;
+    overflow-y: auto;
+  }
+
+  /* Scenario cards — horizontal scroll strip */
+  .scenario-strip {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 10px;
+    padding-bottom: 4px;
+  }
+
+  .scenario-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scenario-card {
+    flex: 0 0 auto;
+    width: 160px;
+    min-height: 44px;
+  }
+
+  /* Caller tools */
+  .call-tools-panel {
+    padding: 16px;
+  }
+
+  .call-lab-console-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .call-lab-toggle-row {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .call-stage-topline {
+    gap: 10px;
+  }
+
+  .call-topline-stats {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* Outcome grid single column */
+  .outcome-facts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Queue/overview grids */
+  .queue-summary-grid,
+  .ops-overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .phone-frame {
+    width: min(100%, 280px);
+  }
+
+  .phone-action {
+    width: 52px;
+    height: 52px;
+  }
+
+  .scenario-card {
+    width: 140px;
+  }
+
+  .call-lab {
+    padding: 16px 12px;
+  }
+}
+
+/* ====================================================
+   SCROLLBAR STYLING
+   ==================================================== */
+
+.transcript-stack::-webkit-scrollbar,
+.timeline-stack::-webkit-scrollbar {
+  width: 4px;
+}
+
+.transcript-stack::-webkit-scrollbar-track,
+.timeline-stack::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.transcript-stack::-webkit-scrollbar-thumb,
+.timeline-stack::-webkit-scrollbar-thumb {
+  background: rgba(200, 207, 202, 0.6);
+  border-radius: 999px;
+}

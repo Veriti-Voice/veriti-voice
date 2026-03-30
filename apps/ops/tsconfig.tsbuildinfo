@@ -1,0 +1,1 @@
+{"root":["./src/main.tsx","./src/vite-env.d.ts","./src/features/calllab/calllab.tsx","./src/features/calls/callsprioritycard.tsx","./src/features/setup/demoworkbench.tsx","./src/features/setup/setupchecklistcard.tsx","./src/lib/api.ts","./src/routes/app.tsx"],"version":"5.9.3"}
