@@ -1128,3 +1128,38 @@ npm run build:ops
 ```bash
 PYTHONPYCACHEPREFIX=/tmp/veriti-pycache apps/api/.venv/bin/python -m compileall apps/api/app
 ```
+
+## 2026-03-31: Call Lab Start Failure Visibility And Reset Recovery
+
+### What Changed
+
+- Tightened the Call Lab startup flow so failures are visible near the phone instead of only down in the caller tools panel.
+- Added an inline error banner directly under the handset for failed connect or microphone startup paths.
+- Made the `End` control behave as a true reset during half-started calls, including when the websocket never fully opens.
+- Added more defensive frontend diagnostics:
+  - console logging for startup failures
+  - timeline entries for failed start attempts
+  - websocket close handling while the call is still in `connecting`
+
+### Files
+
+- [use-call-session.ts](/Users/treemacair/Documents/Call%20Agents/apps/ops/src/features/calllab/use-call-session.ts)
+- [PhoneSimulator.tsx](/Users/treemacair/Documents/Call%20Agents/apps/ops/src/features/calllab/PhoneSimulator.tsx)
+- [CallLab.tsx](/Users/treemacair/Documents/Call%20Agents/apps/ops/src/features/calllab/CallLab.tsx)
+- [styles.css](/Users/treemacair/Documents/Call%20Agents/apps/ops/src/styles.css)
+
+### Why It Mattered
+
+- On the deployed app, `Start` could appear to do nothing even when the app had already failed and moved into an error state.
+- The microphone permission check can briefly light up the mic indicator and then stop, which is normal for permission priming, but it looked like a broken call because the real error was hidden below the fold.
+- The `End` button also felt broken when startup failed before the websocket was ready, because it only worked when a live socket already existed.
+
+### Verification Run
+
+```bash
+npm run build:ops
+```
+
+```bash
+PYTHONPYCACHEPREFIX=/tmp/veriti-pycache apps/api/.venv/bin/python -m compileall apps/api/app
+```

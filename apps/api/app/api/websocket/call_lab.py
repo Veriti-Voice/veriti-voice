@@ -51,32 +51,57 @@ async def call_lab_stream(websocket: WebSocket) -> None:
     )
     event_pump_task: asyncio.Task[None] | None = None
     audio_activity_open = False
-
-    await voice_session.connect()
-    initial_event = await voice_session.receive_event()
-    call_session_manager.add_transcript_event(
-        call_sid,
-        "assistant",
-        initial_event.payload.get("text", "Voice session connected."),
-    )
-    await websocket.send_json(
-        {
-            "type": "session_bootstrapped",
-            "callSid": call_sid,
-            "provider": settings.voice_provider,
-            "voiceEvent": {
-                "eventType": initial_event.event_type.value,
-                "payload": _serialize_voice_event(initial_event),
-            },
-        }
-    )
-    event_pump_task = asyncio.create_task(
-        _forward_call_lab_events(
-            websocket=websocket,
-            voice_session=voice_session,
-            call_sid=call_sid,
+    try:
+        await voice_session.connect()
+        initial_event = await voice_session.receive_event()
+        call_session_manager.add_transcript_event(
+            call_sid,
+            "assistant",
+            initial_event.payload.get("text", "Voice session connected."),
         )
-    )
+        await websocket.send_json(
+            {
+                "type": "session_bootstrapped",
+                "callSid": call_sid,
+                "provider": settings.voice_provider,
+                "voiceEvent": {
+                    "eventType": initial_event.event_type.value,
+                    "payload": _serialize_voice_event(initial_event),
+                },
+            }
+        )
+        event_pump_task = asyncio.create_task(
+            _forward_call_lab_events(
+                websocket=websocket,
+                voice_session=voice_session,
+                call_sid=call_sid,
+            )
+        )
+    except Exception as exc:
+        call_session_manager.add_transcript_event(
+            call_sid,
+            "system",
+            f"Call Lab failed to initialise: {exc}",
+            priority="high",
+            action_required=True,
+        )
+        with contextlib.suppress(Exception):
+            await websocket.send_json(
+                {
+                    "type": "voice_event",
+                    "callSid": call_sid,
+                    "voiceEvent": {
+                        "eventType": VoiceEventType.ERROR.value,
+                        "payload": {
+                            "message": f"Call Lab failed to initialise: {exc}",
+                        },
+                    },
+                }
+            )
+        with contextlib.suppress(Exception):
+            await voice_session.close()
+        await websocket.close(code=1011)
+        return
 
     try:
         while True:

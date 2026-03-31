@@ -933,6 +933,18 @@ h1 {
   font-size: 0.9rem;
 }
 
+.call-lab-inline-error {
+  display: grid;
+  gap: 4px;
+  margin-top: 14px;
+}
+
+.call-lab-inline-error strong {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
 /* Preview header */
 .preview-header {
   display: flex;

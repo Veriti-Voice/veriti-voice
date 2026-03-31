@@ -88,6 +88,13 @@ export function CallLab({ onCallCompleted }: CallLabProps) {
             onMicRelease={session.handleMicRelease}
             onToggleHandsfree={session.toggleHandsfree}
           />
+
+          {session.error ? (
+            <div className="call-lab-inline-error error-banner" role="alert">
+              <strong>Call start issue</strong>
+              <span>{session.error}</span>
+            </div>
+          ) : null}
         </section>
 
         <section className="call-sidebar">
