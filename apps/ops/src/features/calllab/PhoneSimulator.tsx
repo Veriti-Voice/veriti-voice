@@ -40,6 +40,8 @@ export function PhoneSimulator({
   onMicRelease,
   onToggleHandsfree,
 }: PhoneSimulatorProps) {
+  const endLabel = stage === 'connecting' || stage === 'error' ? 'Reset' : 'End';
+
   return (
     <div className="call-stage-body">
       <div className="phone-shell">
@@ -137,9 +139,9 @@ export function PhoneSimulator({
                     type="button"
                     className="phone-action phone-action-danger"
                     onClick={onEndCall}
-                    disabled={stage === 'idle' || stage === 'ended' || stage === 'error'}
+                    disabled={stage === 'idle' || stage === 'ended'}
                   >
-                    <span>End</span>
+                    <span>{endLabel}</span>
                   </button>
                 </div>
               </div>

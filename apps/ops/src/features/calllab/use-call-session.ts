@@ -138,6 +138,32 @@ export function useCallSession(onCallCompleted?: () => void): CallSessionState &
     ]);
   }
 
+  function resetCallState(nextStage: CallStage = 'ended') {
+    if (websocketRef.current) {
+      try {
+        websocketRef.current.close();
+      } catch {
+        // noop
+      }
+      websocketRef.current = null;
+    }
+    clearScheduledPlayback(audioContextRef, playbackCursorRef, activePlaybackSourcesRef);
+    cleanupRecorderResources(mediaStreamRef, recorderContextRef, recorderSourceRef, recorderProcessorRef, recorderMuteGainRef);
+    setIsRecording(false);
+    setIsUploadingAudio(false);
+    setMicLevel(0);
+    setHandsfreeEnabled(false);
+    setSpeakerReady(false);
+    setAssistantTransport('waiting');
+    interruptionRequestedRef.current = false;
+    suppressAssistantAudioRef.current = false;
+    primedRef.current = false;
+    autoSpeakingRef.current = false;
+    silenceFramesRef.current = 0;
+    recordedSampleCountRef.current = 0;
+    setStage(nextStage);
+  }
+
   function requestAssistantInterruption(label: string) {
     if (interruptionRequestedRef.current) return;
     interruptionRequestedRef.current = true;
@@ -262,7 +288,7 @@ export function useCallSession(onCallCompleted?: () => void): CallSessionState &
   // --- Call lifecycle ---
 
   async function handleStartCall() {
-    if (websocketRef.current) websocketRef.current.close();
+    resetCallState('idle');
     try {
       setError(null);
       setStage('connecting');
@@ -280,6 +306,8 @@ export function useCallSession(onCallCompleted?: () => void): CallSessionState &
       setAssistantTransport('waiting');
       interruptionRequestedRef.current = false;
       suppressAssistantAudioRef.current = false;
+
+      assertCallLabDeploymentConfig();
 
       await ensureMicrophonePermission();
 
@@ -303,28 +331,59 @@ export function useCallSession(onCallCompleted?: () => void): CallSessionState &
       const socket = new WebSocket(websocketUrl);
       websocketRef.current = socket;
 
+      socket.onopen = () => {
+        appendTimeline('Call connection opened.', 'neutral');
+      };
       socket.onmessage = (message) => {
         const p = JSON.parse(String(message.data)) as Record<string, unknown>;
         handleSocketMessage(p);
       };
       socket.onerror = () => {
+        console.error('Call Lab websocket failed to connect.', { websocketUrl });
         setStage('error');
         setError('The Call Lab websocket failed to connect.');
         appendTimeline('Websocket connection failed.', 'alert');
       };
-      socket.onclose = () => { websocketRef.current = null; };
+      socket.onclose = (event) => {
+        websocketRef.current = null;
+        if (stageRef.current === 'connecting') {
+          const detail = event.reason ? ` ${event.reason}` : '';
+          setError(`The call could not finish starting.${detail}`);
+          appendTimeline('Call start ended before the assistant came online.', 'alert');
+          resetCallState('error');
+          return;
+        }
+        if (stageRef.current !== 'ended' && stageRef.current !== 'idle' && stageRef.current !== 'error') {
+          appendTimeline('Call connection closed.', 'neutral');
+          resetCallState('ended');
+        }
+      };
     } catch (startError) {
-      setStage('error');
-      setError(startError instanceof Error ? startError.message : 'Failed to start the call.');
+      const message = startError instanceof Error ? startError.message : 'Failed to start the call.';
+      console.error('Call Lab start failed.', startError);
+      setError(message);
+      appendTimeline(message, 'alert');
+      resetCallState('error');
     }
   }
 
   function handleEndCall() {
-    if (!websocketRef.current) return;
+    if (!websocketRef.current) {
+      setError(null);
+      appendTimeline('Call reset.', 'neutral');
+      resetCallState('ended');
+      return;
+    }
     void stopRecordingAndSend({ shouldSend: false });
-    websocketRef.current.send(
-      JSON.stringify({ event: 'stop', streamSid: streamSidRef.current, stop: { reason: 'call-lab-ended' } })
-    );
+    if (websocketRef.current.readyState === WebSocket.OPEN) {
+      websocketRef.current.send(
+        JSON.stringify({ event: 'stop', streamSid: streamSidRef.current, stop: { reason: 'call-lab-ended' } })
+      );
+      return;
+    }
+    appendTimeline('Call reset before the line fully connected.', 'neutral');
+    setError(null);
+    resetCallState('ended');
   }
 
   function sendUtterance(text: string) {
@@ -566,6 +625,41 @@ export function useCallSession(onCallCompleted?: () => void): CallSessionState &
   function handleComposerSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     sendUtterance(draftUtterance);
+  }
+
+  function assertCallLabDeploymentConfig() {
+    if (typeof window === 'undefined') return;
+
+    const frontendHost = window.location.hostname;
+    const isLocalFrontend =
+      frontendHost === 'localhost' ||
+      frontendHost === '127.0.0.1' ||
+      frontendHost.endsWith('.local');
+
+    let apiUrl: URL;
+    try {
+      apiUrl = new URL(API_BASE_URL);
+    } catch {
+      throw new Error(`Invalid API base URL: ${API_BASE_URL}`);
+    }
+
+    const apiHost = apiUrl.hostname;
+    const apiIsLocal =
+      apiHost === 'localhost' ||
+      apiHost === '127.0.0.1' ||
+      apiHost.endsWith('.local');
+
+    if (!isLocalFrontend && apiIsLocal) {
+      throw new Error(
+        'This deployed frontend is still pointing at localhost. Set VITE_API_BASE_URL to your Railway API URL in Vercel and redeploy.'
+      );
+    }
+
+    if (window.location.protocol === 'https:' && apiUrl.protocol === 'http:' && !apiIsLocal) {
+      throw new Error(
+        'This frontend is loaded over HTTPS but the API base URL is HTTP. Use an HTTPS API URL so the Call Lab websocket can connect.'
+      );
+    }
   }
 
   return {
