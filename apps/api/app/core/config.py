@@ -5,8 +5,9 @@ from typing import List
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-REPO_ROOT = Path(__file__).resolve().parents[4]
 API_ROOT = Path(__file__).resolve().parents[2]
+_parents = Path(__file__).resolve().parents
+REPO_ROOT = _parents[4] if len(_parents) > 4 else API_ROOT
 
 
 class Settings(BaseSettings):
