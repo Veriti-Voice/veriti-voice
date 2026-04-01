@@ -33,6 +33,25 @@ def build_setup_message(settings: Settings, context: VoiceSessionContext) -> dic
             }
         }
 
+    if context.activity_mode == "automatic":
+        realtime_input_config: dict[str, Any] = {
+            "automaticActivityDetection": {
+                "disabled": False,
+                "startOfSpeechSensitivity": settings.gemini_live_vad_start_sensitivity,
+                "endOfSpeechSensitivity": settings.gemini_live_vad_end_sensitivity,
+                "prefixPaddingMs": settings.gemini_live_vad_prefix_padding_ms,
+                "silenceDurationMs": settings.gemini_live_vad_silence_duration_ms,
+            },
+            "activityHandling": settings.gemini_live_activity_handling,
+            "turnCoverage": settings.gemini_live_turn_coverage,
+        }
+    else:
+        realtime_input_config = {
+            "automaticActivityDetection": {
+                "disabled": True,
+            }
+        }
+
     return {
         "setup": {
             "model": normalize_model_name(settings.gemini_model),
@@ -46,11 +65,7 @@ def build_setup_message(settings: Settings, context: VoiceSessionContext) -> dic
             },
             "inputAudioTranscription": {},
             "outputAudioTranscription": {},
-            "realtimeInputConfig": {
-                "automaticActivityDetection": {
-                    "disabled": True,
-                }
-            },
+            "realtimeInputConfig": realtime_input_config,
         }
     }
 
@@ -78,6 +93,14 @@ def build_activity_end_message() -> dict[str, Any]:
     return {
         "realtimeInput": {
             "activityEnd": {},
+        }
+    }
+
+
+def build_audio_stream_end_message() -> dict[str, Any]:
+    return {
+        "realtimeInput": {
+            "audioStreamEnd": True,
         }
     }
 

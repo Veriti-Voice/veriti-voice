@@ -1163,3 +1163,50 @@ npm run build:ops
 ```bash
 PYTHONPYCACHEPREFIX=/tmp/veriti-pycache apps/api/.venv/bin/python -m compileall apps/api/app
 ```
+
+## 2026-04-01: Gemini Live Automatic VAD For Call Lab
+
+### What Changed
+
+- Added route-specific voice activity handling so the browser Call Lab can use Gemini Live automatic VAD while the Twilio media path stays on manual activity signals.
+- Extended the voice session context with an `activity_mode` flag and switched the Call Lab websocket to `automatic`.
+- Added configurable Gemini Live VAD settings:
+  - start sensitivity
+  - end sensitivity
+  - prefix padding
+  - silence duration
+  - activity handling
+  - turn coverage
+- Updated the Gemini Live setup message to send automatic VAD config when the session is in automatic mode.
+- Added `audioStreamEnd` support so Call Lab turn flushes follow the Live API automatic VAD model instead of always sending `activityEnd`.
+- Expanded the Gemini wire test coverage for automatic VAD config and `audioStreamEnd`.
+
+### Files
+
+- [session.py](/Users/treemacair/Documents/Call%20Agents/apps/api/app/domain/voice/session.py)
+- [policy.py](/Users/treemacair/Documents/Call%20Agents/apps/api/app/domain/demo/policy.py)
+- [call_lab.py](/Users/treemacair/Documents/Call%20Agents/apps/api/app/api/websocket/call_lab.py)
+- [config.py](/Users/treemacair/Documents/Call%20Agents/apps/api/app/core/config.py)
+- [live.py](/Users/treemacair/Documents/Call%20Agents/apps/api/app/integrations/gemini/live.py)
+- [adapter.py](/Users/treemacair/Documents/Call%20Agents/apps/api/app/integrations/gemini/adapter.py)
+- [test_gemini_live_wire.py](/Users/treemacair/Documents/Call%20Agents/apps/api/tests/test_gemini_live_wire.py)
+- [.env.example](/Users/treemacair/Documents/Call%20Agents/.env.example)
+
+### Why It Mattered
+
+- The Call Lab needed more natural interruption and turn detection than our browser-only heuristics were providing.
+- Vertex Live docs separate two models:
+  - automatic VAD with `audioStreamEnd`
+  - manual activity signals with `activityStart` and `activityEnd`
+- Our live adapter was only wired for the manual model before this change, which limited how naturally the browser Call Lab could behave.
+- The Twilio media route still uses the manual activity model for now, which keeps that path stable while we improve the browser-native experience first.
+
+### Verification Run
+
+```bash
+PYTHONPYCACHEPREFIX=/tmp/veriti-pycache apps/api/.venv/bin/python -m compileall apps/api/app apps/api/tests
+```
+
+Residual note:
+
+- `pytest` is still not installed in the API venv, so the new wire assertions were added but not executed under pytest from this environment.

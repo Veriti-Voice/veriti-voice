@@ -25,6 +25,7 @@ class VoiceEvent:
 class VoiceSessionContext:
     clinic_key: str = "demo-clinic"
     clinic_name: str = "Demo Clinic"
+    activity_mode: str = "manual"
     welcome_message: str = ""
     supported_actions: tuple[str, ...] = ()
     known_practitioners: tuple[str, ...] = ()

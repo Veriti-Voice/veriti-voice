@@ -23,6 +23,7 @@ from app.domain.voice.session import (
 from app.integrations.gemini.live import (
     build_activity_end_message,
     build_activity_start_message,
+    build_audio_stream_end_message,
     build_connect_headers,
     build_realtime_audio_message,
     build_realtime_text_message,
@@ -47,6 +48,9 @@ class GeminiLiveVoiceSession(VoiceSession):
         self._receiver_task: asyncio.Task[None] | None = None
         self._stub_audio_buffer = bytearray()
         self._stub_activity_open = False
+        self._uses_automatic_activity_detection = (
+            context.activity_mode.lower() == "automatic"
+        )
 
     async def connect(self) -> None:
         requested_mode = self._mode
@@ -90,6 +94,8 @@ class GeminiLiveVoiceSession(VoiceSession):
             raise RuntimeError("Gemini session is not connected.")
 
         if self._websocket is not None:
+            if self._uses_automatic_activity_detection:
+                return
             await self._websocket.send(dumps_message(build_activity_start_message()))
             return
 
@@ -101,7 +107,12 @@ class GeminiLiveVoiceSession(VoiceSession):
             raise RuntimeError("Gemini session is not connected.")
 
         if self._websocket is not None:
-            await self._websocket.send(dumps_message(build_activity_end_message()))
+            if self._uses_automatic_activity_detection:
+                await self._websocket.send(
+                    dumps_message(build_audio_stream_end_message())
+                )
+            else:
+                await self._websocket.send(dumps_message(build_activity_end_message()))
             return
 
         await self._flush_stub_audio_turn()

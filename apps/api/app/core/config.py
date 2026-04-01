@@ -40,6 +40,28 @@ class Settings(BaseSettings):
     gemini_live_max_output_tokens: int = Field(
         default=1024, alias="GEMINI_LIVE_MAX_OUTPUT_TOKENS"
     )
+    gemini_live_vad_start_sensitivity: str = Field(
+        default="START_SENSITIVITY_HIGH",
+        alias="GEMINI_LIVE_VAD_START_SENSITIVITY",
+    )
+    gemini_live_vad_end_sensitivity: str = Field(
+        default="END_SENSITIVITY_LOW",
+        alias="GEMINI_LIVE_VAD_END_SENSITIVITY",
+    )
+    gemini_live_vad_prefix_padding_ms: int = Field(
+        default=20, alias="GEMINI_LIVE_VAD_PREFIX_PADDING_MS"
+    )
+    gemini_live_vad_silence_duration_ms: int = Field(
+        default=120, alias="GEMINI_LIVE_VAD_SILENCE_DURATION_MS"
+    )
+    gemini_live_activity_handling: str = Field(
+        default="START_OF_ACTIVITY_INTERRUPTS",
+        alias="GEMINI_LIVE_ACTIVITY_HANDLING",
+    )
+    gemini_live_turn_coverage: str = Field(
+        default="TURN_INCLUDES_ONLY_ACTIVITY",
+        alias="GEMINI_LIVE_TURN_COVERAGE",
+    )
     voice_provider: str = Field(default="gemini", alias="VOICE_PROVIDER")
 
     twilio_account_sid: str = Field(default="", alias="TWILIO_ACCOUNT_SID")

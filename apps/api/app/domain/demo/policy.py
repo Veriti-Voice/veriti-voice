@@ -34,7 +34,11 @@ def save_demo_setup_profile(profile: DemoSetupProfile) -> DemoSetupProfile:
     return DemoSetupProfile.model_validate(stored)
 
 
-def build_voice_session_context(profile: DemoSetupProfile) -> VoiceSessionContext:
+def build_voice_session_context(
+    profile: DemoSetupProfile,
+    *,
+    activity_mode: str = "manual",
+) -> VoiceSessionContext:
     supported_actions = list_supported_actions(profile)
     known_practitioners = tuple(
         practitioner.name for practitioner in get_stub_practitioners()
@@ -45,6 +49,7 @@ def build_voice_session_context(profile: DemoSetupProfile) -> VoiceSessionContex
     return VoiceSessionContext(
         clinic_key=profile.clinic_key,
         clinic_name=profile.clinic_name,
+        activity_mode=activity_mode,
         welcome_message=profile.welcome_message,
         supported_actions=supported_actions,
         known_practitioners=known_practitioners,

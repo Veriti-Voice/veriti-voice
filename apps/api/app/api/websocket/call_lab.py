@@ -47,7 +47,7 @@ async def call_lab_stream(websocket: WebSocket) -> None:
 
     voice_session = build_voice_session(
         settings,
-        context=build_voice_session_context(profile),
+        context=build_voice_session_context(profile, activity_mode="automatic"),
     )
     event_pump_task: asyncio.Task[None] | None = None
     audio_activity_open = False
