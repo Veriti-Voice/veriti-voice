@@ -233,7 +233,11 @@ export function useCallSession(onCallCompleted?: () => void): CallSessionState &
       setStage('live');
       if (!primedRef.current) {
         primedRef.current = true;
-        if (talkModeRef.current === 'handsfree') void handleMicPress();
+        if (talkModeRef.current === 'handsfree') {
+          window.setTimeout(() => {
+            void handleMicPress();
+          }, 0);
+        }
       }
       return;
     }
@@ -258,7 +262,11 @@ export function useCallSession(onCallCompleted?: () => void): CallSessionState &
       interruptionRequestedRef.current = false;
       suppressAssistantAudioRef.current = false;
       setStage('live');
-      if (talkMode === 'handsfree' && handsfreeEnabled && !isRecording) void handleMicPress();
+      if (talkModeRef.current === 'handsfree' && handsfreeEnabledRef.current && !isRecording) {
+        window.setTimeout(() => {
+          void handleMicPress();
+        }, 0);
+      }
       return;
     }
     if (type === 'clear_playback') {
@@ -399,7 +407,15 @@ export function useCallSession(onCallCompleted?: () => void): CallSessionState &
   // --- Mic handling ---
 
   async function handleMicPress() {
-    if (isRecording || isUploadingAudio || !websocketRef.current || (stage !== 'live' && stage !== 'responding')) return;
+    const activeStage = stageRef.current;
+    if (
+      isRecording ||
+      isUploadingAudio ||
+      !websocketRef.current ||
+      (activeStage !== 'live' && activeStage !== 'responding')
+    ) {
+      return;
+    }
     if (!navigator.mediaDevices?.getUserMedia) {
       setError('This browser does not support microphone capture for the Call Lab.');
       setMicPermission('denied');
@@ -410,7 +426,9 @@ export function useCallSession(onCallCompleted?: () => void): CallSessionState &
       setError(null);
       recordedSampleCountRef.current = 0;
       const activeTalkMode = talkModeRef.current;
-      if (stage === 'responding' && websocketRef.current) requestAssistantInterruption('Caller interrupted assistant.');
+      if (activeStage === 'responding' && websocketRef.current) {
+        requestAssistantInterruption('Caller interrupted assistant.');
+      }
 
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true },
